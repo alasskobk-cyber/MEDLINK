@@ -1,45 +1,61 @@
 [app]
 
-# Nom de l'application
+# Nom affiché de l'application
 title = MEDLINK
 
 # Nom technique du package
 package.name = medlink
 
-# Identifiant unique de l'application
+# Identifiant unique
 package.domain = org.medlink
 
 # Dossier contenant main.py
 source.dir = .
 
-# Fichiers à inclure dans l'application
+# Extensions incluses
 source.include_exts = py,png,jpg,jpeg,kv,json
 
-# Version de MEDLINK
+# Version
 version = 1.0
 
-# Dépendances Python
+# Dépendances
 requirements = python3,kivy
 
-# Orientation de l'application
+# Orientation
 orientation = portrait
 
-# Ne pas utiliser le plein écran
+# Mode fenêtre
 fullscreen = 0
 
-# Configuration Android
-android.api = 35
+
+# --------------------------------------------------
+# ANDROID
+# --------------------------------------------------
+
+# Version Android utilisée pour la compilation
+android.api = 34
+
+# Version Android minimale
 android.minapi = 23
+
+# Architecture
 android.arch = arm64-v8a
 
-# Accepter les licences Android
+# Accepter automatiquement les licences
 android.accept_sdk_license = True
 
+# Nom de l'APK
+android.add_src =
+
+
+# --------------------------------------------------
+# BUILD
+# --------------------------------------------------
 
 [buildozer]
 
-# Niveau des journaux
+# Niveau des logs
 log_level = 2
 
-# Avertissement si Buildozer est exécuté avec les privilèges root
+# Avertissement si exécuté avec root
 warn_on_root = 1
