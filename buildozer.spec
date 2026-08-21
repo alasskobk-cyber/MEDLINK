@@ -1,54 +1,29 @@
 [app]
 
-# ==================================================
-# INFORMATIONS DE L'APPLICATION
-# ==================================================
-
 title = MEDLINK
 package.name = medlink
 package.domain = org.medlink
 
-version = 1.0
-
-# ==================================================
-# CODE SOURCE
-# ==================================================
-
 source.dir = .
 source.include_exts = py,png,jpg,jpeg,kv,json
 
-# ==================================================
-# DEPENDANCES PYTHON
-# ==================================================
+version = 1.0
 
-requirements = python3,kivy
-
-# ==================================================
-# INTERFACE
-# ==================================================
+requirements = python3==3.12.10,kivy
 
 orientation = portrait
 fullscreen = 0
 
-# ==================================================
-# ANDROID
-# ==================================================
+android.api = 35
+android.minapi = 24
+android.ndk = 28c
 
-android.api = 34
-android.minapi = 23
-android.arch = arm64-v8a
+android.archs = arm64-v8a
 
 android.accept_sdk_license = True
 
-# ==================================================
-# PERMISSIONS
-# ==================================================
+p4a.branch = master
 
-android.permissions = INTERNET
-
-# ==================================================
-# BUILD
-# ==================================================
 
 [buildozer]
 
