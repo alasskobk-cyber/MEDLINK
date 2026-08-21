@@ -8,18 +8,13 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - name: Télécharger le projet
+      - name: Télécharger MEDLINK
         uses: actions/checkout@v4
 
       - name: Installer Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-
-      - name: Installer Buildozer
-        run: |
-          python -m pip install --upgrade pip
-          pip install buildozer cython==0.29.37
 
       - name: Installer les dépendances système
         run: |
@@ -39,6 +34,23 @@ jobs:
             cmake \
             libffi-dev \
             libssl-dev
+
+      - name: Installer Buildozer
+        run: |
+          python -m pip install --upgrade pip
+          pip install buildozer cython==0.29.37
+
+      - name: Accepter les licences Android
+        run: |
+          mkdir -p "$HOME/.buildozer/android/platform/android-sdk/licenses"
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses || true
+
+      - name: Installer Android Build Tools
+        run: |
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" \
+            "platform-tools" \
+            "platforms;android-35" \
+            "build-tools;35.0.0"
 
       - name: Construire MEDLINK
         run: |
