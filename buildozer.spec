@@ -9,7 +9,7 @@ source.include_exts = py,png,jpg,jpeg,kv,json
 
 version = 1.0
 
-requirements = python3==3.12.10,kivy
+requirements = python3,kivy
 
 orientation = portrait
 fullscreen = 0
