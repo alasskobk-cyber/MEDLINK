@@ -20,7 +20,6 @@ android.arch = arm64-v8a
 android.accept_sdk_license = True
 
 # Utiliser Python 3.12
-p4a.python_version = 3.12
 
 [buildozer]
 
