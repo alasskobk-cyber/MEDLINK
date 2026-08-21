@@ -14,11 +14,13 @@ requirements = python3,kivy
 orientation = portrait
 fullscreen = 0
 
-# Android
 android.api = 35
 android.minapi = 23
-android.accept_sdk_license = True
 android.arch = arm64-v8a
+android.accept_sdk_license = True
+
+# Utiliser Python 3.12
+p4a.python_version = 3.12
 
 [buildozer]
 
