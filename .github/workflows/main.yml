@@ -5,63 +5,105 @@ on:
 
 jobs:
   build:
+    name: Build MEDLINK
     runs-on: ubuntu-22.04
 
     steps:
 
-      - name: Télécharger MEDLINK
+      # 1. Récupérer le projet
+      - name: Checkout MEDLINK
         uses: actions/checkout@v4
 
-      - name: Installer Java 17
-        uses: actions/setup-java@v4
+      # 2. Installer Python utilisé par Buildozer
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      # 3. Installer Java 17
+      - name: Setup Java 17
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: "17"
 
-      - name: Installer Python 3.11
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-
-      - name: Vérifier les versions
+      # 4. Vérifier l'environnement
+      - name: Vérifier Python et Java
         run: |
           python --version
+          python -m pip --version
           java -version
 
+      # 5. Installer les dépendances Linux
+      - name: Installer les dépendances système
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            git \
+            zip \
+            unzip \
+            autoconf \
+            automake \
+            libtool \
+            pkg-config \
+            cmake \
+            zlib1g-dev \
+            libffi-dev \
+            libssl-dev \
+            libncurses5-dev \
+            libncursesw5-dev
+
+      # 6. Installer Buildozer
       - name: Installer Buildozer
         run: |
           python -m pip install --upgrade pip
-          pip install buildozer==1.5.0
-          pip install cython==0.29.37
+          python -m pip install "buildozer==1.5.0"
+          python -m pip install "cython==0.29.37"
 
-      - name: Installer Android SDK
+      # 7. Installer Android SDK
+      - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Accepter les licences
+      # 8. Accepter les licences
+      - name: Accepter les licences Android
         run: |
           yes | sdkmanager --licenses || true
 
-      - name: Installer Android
+      # 9. Installer les composants Android
+      - name: Installer Android API 34
         run: |
           sdkmanager "platform-tools"
           sdkmanager "platforms;android-34"
           sdkmanager "build-tools;34.0.0"
 
-      - name: Nettoyer complètement
+      # 10. Vérifier Buildozer
+      - name: Vérifier Buildozer
+        run: |
+          buildozer --version
+
+      # 11. Nettoyage complet
+      - name: Nettoyer Buildozer
         run: |
           rm -rf .buildozer
           rm -rf bin
 
-      - name: Construire MEDLINK
+      # 12. Construire MEDLINK
+      - name: Construire MEDLINK APK
+        env:
+          P4A_RELEASE_PYTHON: "3.11.9"
         run: |
           buildozer -v android debug
 
+      # 13. Vérifier que l'APK existe
       - name: Vérifier APK
         run: |
-          ls -lh bin/
+          echo "Contenu du dossier bin :"
+          ls -lah bin/
 
-      - name: Sauvegarder APK
+      # 14. Sauvegarder l'APK
+      - name: Télécharger l'APK
         uses: actions/upload-artifact@v4
         with:
           name: MEDLINK-APK
           path: bin/*.apk
+          if-no-files-found: error
